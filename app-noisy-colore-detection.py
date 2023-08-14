@@ -39,7 +39,7 @@ def generate_color_image(color, size=(100, 100)):
         raise ValueError(f"Unknown color {color}")
     
     # Create an image of the color
-    img = Image.new('RGB', size, color_map[color])
+    img = Image.new('RGB', size, color_map[color][::-1])  # Reverse RGB order
     
     return img
   
