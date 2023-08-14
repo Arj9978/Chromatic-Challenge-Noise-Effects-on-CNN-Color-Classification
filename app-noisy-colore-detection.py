@@ -36,14 +36,14 @@ def generate_color_image(color, size=(100, 100)):
         'white': (255, 255, 255)
     }
     
-    for color, value in color_map.items():
+    value = color_map[color]
     image = np.zeros((100, 100, 3), dtype=np.uint8)
     image[:, :] = value
     
     return image
-  
+
 color_square = generate_color_image(selected_color)
-# st.image(color_square, caption='Selected Color', channels='RGB')
+st.image(color_square, caption='Selected Color', channels='RGB')
 plt.imshow(color_square.astype("uint8"))
 plt.title(f"{selected_color}")
 
