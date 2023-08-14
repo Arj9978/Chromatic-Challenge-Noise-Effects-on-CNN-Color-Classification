@@ -1,0 +1,2 @@
+# Chromatic-Challenge-Noise-Effects-on-CNN-Color-Classification
+Explore the effects of noise on CNN color classification in this repository. Discover how Convolutional Neural Networks respond to variations in image quality caused by different levels of noise. Dive into the code, dataset, visualizations, and findings of our investigation. Join us in unraveling the impact of chromatic chaos on color recognition.
