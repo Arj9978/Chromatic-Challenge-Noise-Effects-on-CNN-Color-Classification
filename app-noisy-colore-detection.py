@@ -34,20 +34,11 @@ def generate_color_image(color, size=(100, 100)):
         'white': (255, 255, 255)
     }
     
-    # Ensure the color is valid
-    if color not in color_map:
-        raise ValueError(f"Unknown color {color}")
+    for color, value in colors.items():
+    image = np.zeros((100, 100, 3), dtype=np.uint8)
+    image[:, :] = value
     
-    # Create an image of the color
-    img = Image.new('RGB', size)
-    img_pixels = img.load()
-    
-    # Fill image pixels with the specified color
-    for i in range(size[0]):
-        for j in range(size[1]):
-            img_pixels[i, j] = color_map[color]
-    
-    return img
+    return image
   
 color_square = generate_color_image(selected_color)
 st.image(color_square, caption='Selected Color', channels='RGB')
