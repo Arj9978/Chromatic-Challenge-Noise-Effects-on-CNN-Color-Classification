@@ -36,7 +36,7 @@ def generate_color_image(color, size=(100, 100)):
         'white': (255, 255, 255)
     }
     
-    for color, value in colors.items():
+    for color, value in color_map.items():
     image = np.zeros((100, 100, 3), dtype=np.uint8)
     image[:, :] = value
     
