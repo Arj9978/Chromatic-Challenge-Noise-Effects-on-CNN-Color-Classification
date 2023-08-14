@@ -4,6 +4,8 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
+import matplotlib.pyplot as plt
+
 from PIL import Image
 
 # Load Model
@@ -41,7 +43,9 @@ def generate_color_image(color, size=(100, 100)):
     return image
   
 color_square = generate_color_image(selected_color)
-st.image(color_square, caption='Selected Color', channels='RGB')
+# st.image(color_square, caption='Selected Color', channels='RGB')
+plt.imshow(color_square.astype("uint8"))
+plt.title(f"{selected_color}")
 
 # def predict(): 
 #     row = np.array([Gender, SeniorCitizen, Partner, Dependents, tenure, PhoneService, MultipleLines, OnlineSecurity, OnlineBackup, DeviceProtection, TechSupport,
