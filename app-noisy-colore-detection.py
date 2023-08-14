@@ -32,7 +32,8 @@ selected_color = st.selectbox("Select a color", colors)
 st.write(f"Selected Color: {selected_color}")
 
 # Create a colored square image
-def generate_color_image(color, size=(32, 32)):
+# Create a colored square image
+def generate_color_image(color, size=(32, 32)):  # Update image size to match model input size
     """Generate a monochrome image of the specified color."""
     color_map = {
         'blue': (0, 0, 255),
@@ -53,19 +54,17 @@ def generate_color_image(color, size=(32, 32)):
     return img
 
 color_square = generate_color_image(selected_color)
+color_square_arr = np.array(color_square.resize((32, 32)))  # Resize image to match model input size
+color_square_arr = color_square_arr / 255.0  # Normalize pixel values
+
 # Display the colored square image using Streamlit
 st.image(color_square, caption='Selected Color', channels='RGB')
 
 def predict(): 
-    color_square_arr = np.array(color_square)
-  
-    # Get predicted probabilities for each class
-    y_pred_probs = model.predict(color_square_arr)
-  
-    # Get the predicted class labels by selecting the index of the maximum probability
+    color_square_arr_expanded = np.expand_dims(color_square_arr, axis=0)  # Add batch dimension
+    y_pred_probs = model.predict(color_square_arr_expanded)
     y_pred = np.argmax(y_pred_probs, axis=1)
 
-    # Convert encoded labels back to original labels
     y_pred_la = le.inverse_transform(y_pred)
     st.write(y_pred_la)
 
