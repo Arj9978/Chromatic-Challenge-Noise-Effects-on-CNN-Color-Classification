@@ -8,6 +8,8 @@ import matplotlib.pyplot as plt
 
 from PIL import Image
 
+from sklearn.preprocessing import LabelEncoder
+
 # Load Model
 model = keras.models.load_model("classification_model.h5")
   
@@ -46,20 +48,19 @@ color_square = generate_color_image(selected_color)
 # Display the colored square image using Streamlit
 st.image(color_square, caption='Selected Color', channels='RGB')
 
-# def predict(): 
-#     row = np.array([Gender, SeniorCitizen, Partner, Dependents, tenure, PhoneService, MultipleLines, OnlineSecurity, OnlineBackup, DeviceProtection, TechSupport,
-#                     StreamingTV, StreamingMovies, PaperlessBilling, MonthlyCharges, TotalCharges, Contract_DSL, Contract_Fiber_optic, Contract_No, 
-#                     PaymentMethod_Month_to_month, PaymentMethod_One_year, PaymentMethod_Two_year, InternetService_Bank_transfer_automatic, 
-#                     InternetService_Credit_card_automatic, InternetService_Electronic_check, InternetService_Mailed_check])
+def predict(): 
+    # Get predicted probabilities for each class
+    y_pred_probs = model.predict(color_square)
+    # Get the predicted class labels by selecting the index of the maximum probability
+    y_pred = np.argmax(y_pred_probs, axis=1)
 
-#     # Create a DataFrame with the row data and columns matching the training data
-#     X = pd.DataFrame([row], columns=['gender', 'SeniorCitizen', 'Partner', 'Dependents', 'tenure', 'PhoneService', 'MultipleLines', 'OnlineSecurity', 'OnlineBackup',
-#                                      'DeviceProtection', 'TechSupport', 'StreamingTV', 'StreamingMovies', 'PaperlessBilling', 'MonthlyCharges', 'TotalCharges', 
-#                                      'Contract_DSL', 'Contract_Fiber optic', 'Contract_No', 'PaymentMethod_Month-to-month', 'PaymentMethod_One year',
-#                                      'PaymentMethod_Two year', 'InternetService_Bank transfer (automatic)', 'InternetService_Credit card (automatic)',
-#                                      'InternetService_Electronic check', 'InternetService_Mailed check'])
+    # Convert encoded labels back to original labels
+    y_pred_la = le.inverse_transform(y_pred)
+    st.write(y_pred_la)
 
-#     cols_to_scale = ['tenure','MonthlyCharges','TotalCharges']
+
+
+  
 #     scaler = MinMaxScaler()
 #     X[cols_to_scale] = scaler.fit_transform(X[cols_to_scale])
 #     X = np.array(X)
@@ -71,4 +72,4 @@ st.image(color_square, caption='Selected Color', channels='RGB')
 #         st.error('User did not Stay :thumbsdown:')
 #     st.write(prediction)
 
-# trigger = st.button('Predict', on_click=predict)
+trigger = st.button('Predict', on_click=predict)
