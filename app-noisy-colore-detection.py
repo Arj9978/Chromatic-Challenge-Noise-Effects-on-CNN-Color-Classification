@@ -27,7 +27,7 @@ selected_color = st.selectbox("Select a color", colors)
 st.write(f"Selected Color: {selected_color}")
 
 # Create a colored square image
-def generate_color_image(color, size=(100, 100)):
+def generate_color_image(color, size=(32, 32)):
     """Generate a monochrome image of the specified color."""
     color_map = {
         'blue': (0, 0, 255),
@@ -38,11 +38,14 @@ def generate_color_image(color, size=(100, 100)):
         'white': (255, 255, 255)
     }
     
-    value = color_map[color]
-    image = np.zeros((100, 100, 3), dtype=np.uint8)
-    image[:, :] = value
+    # Ensure the color is valid
+    if color not in color_map:
+        raise ValueError(f"Unknown color {color}")
     
-    return image
+    # Create an image of the color
+    img = Image.new('RGB', size, color_map[color])
+    
+    return img
 
 color_square = generate_color_image(selected_color)
 # Display the colored square image using Streamlit
