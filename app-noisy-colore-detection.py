@@ -57,10 +57,10 @@ color_square = generate_color_image(selected_color)
 st.image(color_square, caption='Selected Color', channels='RGB')
 
 def predict(): 
-    color_square = np.array(color_square)
+    color_square_arr = np.array(color_square)
   
     # Get predicted probabilities for each class
-    y_pred_probs = model.predict(color_square)
+    y_pred_probs = model.predict(color_square_arr)
   
     # Get the predicted class labels by selecting the index of the maximum probability
     y_pred = np.argmax(y_pred_probs, axis=1)
