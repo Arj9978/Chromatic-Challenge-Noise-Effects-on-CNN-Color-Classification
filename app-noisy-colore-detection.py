@@ -23,7 +23,7 @@ selected_color = st.selectbox("Select a color", colors)
 st.write(f"Selected Color: {selected_color}")
 
 # Create a colored square image
-def generate_color_image(color, size=(32, 32)):
+def generate_color_image(color, size=(100, 100)):
     """Generate a monochrome image of the specified color."""
     color_map = {
         'blue': (0, 0, 255),
