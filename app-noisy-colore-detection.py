@@ -39,7 +39,13 @@ def generate_color_image(color, size=(100, 100)):
         raise ValueError(f"Unknown color {color}")
     
     # Create an image of the color
-    img = Image.new('RGB', size, color_map[color][::-1])  # Reverse RGB order
+    img = Image.new('RGB', size)
+    img_pixels = img.load()
+    
+    # Fill image pixels with the specified color
+    for i in range(size[0]):
+        for j in range(size[1]):
+            img_pixels[i, j] = color_map[color]
     
     return img
   
