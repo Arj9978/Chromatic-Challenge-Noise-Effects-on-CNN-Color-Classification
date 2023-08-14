@@ -43,13 +43,6 @@ def generate_color_image(color, size=(100, 100)):
     return image
 
 color_square = generate_color_image(selected_color)
-
-# Display the colored square image using Matplotlib
-plt.figure()
-plt.imshow(color_square)
-plt.title(f"{selected_color}")
-st.pyplot(plt)  # Display the Matplotlib plot in Streamlit
-
 # Display the colored square image using Streamlit
 st.image(color_square, caption='Selected Color', channels='RGB')
 
