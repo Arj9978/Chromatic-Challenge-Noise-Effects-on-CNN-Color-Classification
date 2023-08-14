@@ -8,7 +8,7 @@ from PIL import Image
 
 # Load Model
 model = keras.models.load_model("classification_model.h5")
-
+  
 # Streamlit app title and description
 st.title("Chromatic Challenge: Noise Effects on CNN Color Classification")
 st.write("Explore the impact of noise on color classification using a trained CNN model.")
@@ -23,8 +23,27 @@ selected_color = st.selectbox("Select a color", colors)
 st.write(f"Selected Color: {selected_color}")
 
 # Create a colored square image
-color_index = colors.index(selected_color)
-color_square = np.ones((100, 100, 3)) * np.array(color_index) * 50 / 255.0
+def generate_color_image(color, size=(32, 32)):
+    """Generate a monochrome image of the specified color."""
+    color_map = {
+        'blue': (0, 0, 255),
+        'green': (0, 255, 0),
+        'red': (255, 0, 0),
+        'yellow': (255, 255, 0),
+        'black': (0, 0, 0),
+        'white': (255, 255, 255)
+    }
+    
+    # Ensure the color is valid
+    if color not in color_map:
+        raise ValueError(f"Unknown color {color}")
+    
+    # Create an image of the color
+    img = Image.new('RGB', size, color_map[color])
+    
+    return img
+  
+color_square = generate_color_image(selected_color)
 st.image(color_square, caption='Selected Color', channels='RGB')
 
 # def predict(): 
