@@ -20,6 +20,11 @@ st.write("Explore the impact of noise on color classification using a trained CN
 # Define color labels
 colors = ['blue', 'green', 'red', 'yellow', 'black', 'white']
 
+# Encode labels
+le = LabelEncoder()
+encoded_labels = le.fit_transform(colors)
+y = keras.utils.to_categorical(encoded_labels)
+
 # User selects a color
 selected_color = st.selectbox("Select a color", colors)
 
