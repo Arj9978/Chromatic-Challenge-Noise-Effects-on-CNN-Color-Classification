@@ -67,7 +67,8 @@ st.image(color_square, caption='Color without Noise', channels='RGB')
 def predict(): 
     # Add Gaussian noise to the image
     noisy_color_square = color_square + np.random.normal(loc=0, scale=sc, size=color_square_arr.shape)  # Adjust 'scale' as needed
-  
+    noisy_color_square = np.clip(noisy_color_square, 0.0, 1.0)  # Clamp pixel values
+    
     # Display the Noisy colored square image using Streamlit
     st.image(noisy_color_square, caption='Color with Noise', channels='RGB')
 
