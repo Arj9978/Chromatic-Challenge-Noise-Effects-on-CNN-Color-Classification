@@ -72,14 +72,23 @@ def predict():
     # Display the Noisy colored square image using Streamlit
     st.image(noisy_color_square, caption='Color with Noise', channels='RGB')
 
-    noisy_color_square_arr = np.array(noisy_color_square.resize((32, 32)))  # Resize image to match model input size
-    noisy_color_square_arr = noisy_color_square_arr / 255.0  # Normalize pixel values
-  
-    color_square_arr_expanded = np.expand_dims(noisy_color_square_arr, axis=0)  # Add batch dimension
+    # Convert the noisy image to a NumPy array
+    noisy_color_square_arr = np.array(noisy_color_square)
     
+    # Normalize pixel values
+    noisy_color_square_arr = noisy_color_square_arr / 255.0
+  
+    # Resize the image to match model input size
+    noisy_color_square_arr_resized = np.array(Image.fromarray(noisy_color_square_arr).resize((32, 32)))
+    
+    # Add batch dimension
+    color_square_arr_expanded = np.expand_dims(noisy_color_square_arr_resized, axis=0)
+    
+    # Predict using the model
     y_pred_probs = model.predict(color_square_arr_expanded)
     y_pred = np.argmax(y_pred_probs, axis=1)
 
+    # Convert predicted labels to color labels
     y_pred_la = le.inverse_transform(y_pred)
     st.write(y_pred_la)
 
