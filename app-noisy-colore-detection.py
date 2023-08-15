@@ -66,17 +66,13 @@ st.image(color_square, caption='Color without Noise', channels='RGB')
 
 def predict(): 
     # Add Gaussian noise to the image
-    noisy_color_square = color_square + np.random.normal(loc=0, scale=sc, size=color_square_arr.shape)
+    noisy_color_square = color_square + np.random.normal(loc=0, scale=sc, size=color_square_arr.shape)  # Adjust 'scale' as needed
     noisy_color_square = np.clip(noisy_color_square, 0.0, 1.0)  # Clamp pixel values
-
+    
     # Display the Noisy colored square image using Streamlit
     st.image(noisy_color_square, caption='Color with Noise', channels='RGB')
 
-    # Resize the noisy color square image
-    noisy_color_square_resized = noisy_color_square.resize((32, 32), Image.ANTIALIAS)
-
-    # Convert the resized image to an array
-    noisy_color_square_arr = np.array(noisy_color_square_resized)
+    noisy_color_square_arr = np.array(noisy_color_square.resize((32, 32)))  # Resize image to match model input size
     noisy_color_square_arr = noisy_color_square_arr / 255.0  # Normalize pixel values
   
     color_square_arr_expanded = np.expand_dims(noisy_color_square_arr, axis=0)  # Add batch dimension
