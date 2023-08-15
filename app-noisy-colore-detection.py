@@ -62,7 +62,7 @@ color_square = generate_color_image(selected_color)
 # color_square_arr = color_square_arr / 255.0  # Normalize pixel values
 
 # Add Gaussian noise to the image
-noisy_color_square = color_square + np.random.normal(loc=0, scale=sc, size=color_square_arr.shape)  # Adjust 'scale' as needed
+noisy_color_square = color_square + np.random.normal(loc=0, scale=sc, size=color_square.shape)  # Adjust 'scale' as needed
 # noisy_color_square = np.clip(noisy_color_square, 0.0, 1.0)  # Clamp pixel values
     
 # Display the Noisy colored square image using Streamlit
