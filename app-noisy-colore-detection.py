@@ -36,7 +36,6 @@ sc = st.slider("scale",0,100)
 st.write(f"Selected Color: {selected_color}")
 
 # Create a colored square image
-# Create a colored square image
 def generate_color_image(color, size=(32, 32)):  # Update image size to match model input size
     """Generate a monochrome image of the specified color."""
     color_map = {
@@ -59,36 +58,33 @@ def generate_color_image(color, size=(32, 32)):  # Update image size to match mo
 
 color_square = generate_color_image(selected_color)
 color_square_arr = np.array(color_square.resize((32, 32)))  # Resize image to match model input size
-# color_square_arr = color_square_arr / 255.0  # Normalize pixel values
 
 # Add Gaussian noise to the image
 noisy_color_square = color_square + np.random.normal(loc=0, scale=sc, size=color_square_arr.shape)  # Adjust 'scale' as needed
-noisy_color_square = np.clip(noisy_color_square, 0.0, 1.0)  # Clamp pixel values
+noisy_color_square_sh = np.clip(noisy_color_square, 0.0, 1.0)  # Clamp pixel values
     
 # Display the Noisy colored square image using Streamlit
-st.image(noisy_color_square, caption='Color with Noise', channels='RGB')
+st.image(noisy_color_square_sh, caption='Color with Noise', channels='RGB')
 
-# def predict(): 
-#     
-
-#     # Convert the noisy image to a NumPy array
-#     noisy_color_square_arr = np.array(noisy_color_square)
+def predict(): 
+    # # Convert the noisy image to a NumPy array
+    # noisy_color_square_arr = np.array(noisy_color_square)
     
-#     # Normalize pixel values
-#     noisy_color_square_arr = noisy_color_square_arr / 255.0
+    # # Normalize pixel values
+    # noisy_color_square_arr = noisy_color_square_arr / 255.0
   
-#     # Resize the image to match model input size
-#     noisy_color_square_arr_resized = np.array(Image.fromarray(noisy_color_square_arr).resize((32, 32)))
+    # # Resize the image to match model input size
+    # noisy_color_square_arr_resized = np.array(Image.fromarray(noisy_color_square_arr).resize((32, 32)))
     
-#     # Add batch dimension
-#     color_square_arr_expanded = np.expand_dims(noisy_color_square_arr_resized, axis=0)
+    # # Add batch dimension
+    # color_square_arr_expanded = np.expand_dims(noisy_color_square_arr_resized, axis=0)
     
-#     # Predict using the model
-#     y_pred_probs = model.predict(color_square_arr_expanded)
-#     y_pred = np.argmax(y_pred_probs, axis=1)
+    # Predict using the model
+    y_pred_probs = model.predict(noisy_color_square)
+    y_pred = np.argmax(y_pred_probs, axis=1)
 
-#     # Convert predicted labels to color labels
-#     y_pred_la = le.inverse_transform(y_pred)
-#     st.write(y_pred_la)
+    # Convert predicted labels to color labels
+    y_pred_la = le.inverse_transform(y_pred)
+    st.write(y_pred_la)
 
-# trigger = st.button('Predict', on_click=predict)
+trigger = st.button('Predict', on_click=predict)
