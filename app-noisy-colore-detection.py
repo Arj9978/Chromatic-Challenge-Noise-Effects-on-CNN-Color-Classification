@@ -24,6 +24,7 @@ colors = ['blue', 'green', 'red', 'yellow', 'black', 'white']
 le = LabelEncoder()
 encoded_labels = le.fit_transform(colors)
 y = keras.utils.to_categorical(encoded_labels)
+st.write(y)
 
 # User selects a color
 selected_color = st.selectbox("Select a color", colors)
