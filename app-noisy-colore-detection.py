@@ -75,12 +75,12 @@ def predict():
   
     # # Resize the image to match model input size
     # noisy_color_square_arr_resized = np.array(Image.fromarray(noisy_color_square_arr).resize((32, 32)))
-    
-    # # Add batch dimension
-    # color_square_arr_expanded = np.expand_dims(noisy_color_square_arr_resized, axis=0)
-    
+
+    # Add batch dimension
+    color_square_arr_expanded = np.expand_dims(noisy_color_square, axis=0)
+
     # Predict using the model
-    y_pred_probs = model.predict(noisy_color_square)
+    y_pred_probs = model.predict(color_square_arr_expanded)
     y_pred = np.argmax(y_pred_probs, axis=1)
 
     # Convert predicted labels to color labels
