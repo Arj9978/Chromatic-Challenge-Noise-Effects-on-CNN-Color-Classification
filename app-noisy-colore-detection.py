@@ -20,9 +20,6 @@ st.write("Explore the impact of noise on color classification using a trained CN
 # Define color labels
 colors = ['blue', 'green', 'red', 'yellow', 'black', 'white']
 
-# Define noise scale
-sc = st.slider("scale",0,100)
-
 # Encode labels
 le = LabelEncoder()
 encoded_labels = le.fit_transform(colors)
@@ -31,6 +28,9 @@ st.write(y)
 
 # User selects a color
 selected_color = st.selectbox("Select a color", colors)
+
+# Define noise scale
+sc = st.slider("scale",0,100)
 
 # Display the selected color
 st.write(f"Selected Color: {selected_color}")
@@ -58,38 +58,37 @@ def generate_color_image(color, size=(32, 32)):  # Update image size to match mo
     return img
 
 color_square = generate_color_image(selected_color)
-color_square_arr = np.array(color_square.resize((32, 32)))  # Resize image to match model input size
-color_square_arr = color_square_arr / 255.0  # Normalize pixel values
+# color_square_arr = np.array(color_square.resize((32, 32)))  # Resize image to match model input size
+# color_square_arr = color_square_arr / 255.0  # Normalize pixel values
 
-# Display the colored square image using Streamlit
-st.image(color_square, caption='Color without Noise', channels='RGB')
-
-def predict(): 
-    # Add Gaussian noise to the image
-    noisy_color_square = color_square + np.random.normal(loc=0, scale=sc, size=color_square_arr.shape)  # Adjust 'scale' as needed
-    noisy_color_square = np.clip(noisy_color_square, 0.0, 1.0)  # Clamp pixel values
+# Add Gaussian noise to the image
+noisy_color_square = color_square + np.random.normal(loc=0, scale=sc, size=color_square_arr.shape)  # Adjust 'scale' as needed
+# noisy_color_square = np.clip(noisy_color_square, 0.0, 1.0)  # Clamp pixel values
     
-    # Display the Noisy colored square image using Streamlit
-    st.image(noisy_color_square, caption='Color with Noise', channels='RGB')
+# Display the Noisy colored square image using Streamlit
+st.image(noisy_color_square, caption='Color with Noise', channels='RGB')
 
-    # Convert the noisy image to a NumPy array
-    noisy_color_square_arr = np.array(noisy_color_square)
+# def predict(): 
+#     
+
+#     # Convert the noisy image to a NumPy array
+#     noisy_color_square_arr = np.array(noisy_color_square)
     
-    # Normalize pixel values
-    noisy_color_square_arr = noisy_color_square_arr / 255.0
+#     # Normalize pixel values
+#     noisy_color_square_arr = noisy_color_square_arr / 255.0
   
-    # Resize the image to match model input size
-    noisy_color_square_arr_resized = np.array(Image.fromarray(noisy_color_square_arr).resize((32, 32)))
+#     # Resize the image to match model input size
+#     noisy_color_square_arr_resized = np.array(Image.fromarray(noisy_color_square_arr).resize((32, 32)))
     
-    # Add batch dimension
-    color_square_arr_expanded = np.expand_dims(noisy_color_square_arr_resized, axis=0)
+#     # Add batch dimension
+#     color_square_arr_expanded = np.expand_dims(noisy_color_square_arr_resized, axis=0)
     
-    # Predict using the model
-    y_pred_probs = model.predict(color_square_arr_expanded)
-    y_pred = np.argmax(y_pred_probs, axis=1)
+#     # Predict using the model
+#     y_pred_probs = model.predict(color_square_arr_expanded)
+#     y_pred = np.argmax(y_pred_probs, axis=1)
 
-    # Convert predicted labels to color labels
-    y_pred_la = le.inverse_transform(y_pred)
-    st.write(y_pred_la)
+#     # Convert predicted labels to color labels
+#     y_pred_la = le.inverse_transform(y_pred)
+#     st.write(y_pred_la)
 
-trigger = st.button('Predict', on_click=predict)
+# trigger = st.button('Predict', on_click=predict)
