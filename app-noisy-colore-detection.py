@@ -20,6 +20,9 @@ st.write("Explore the impact of noise on color classification using a trained CN
 # Define color labels
 colors = ['blue', 'green', 'red', 'yellow', 'black', 'white']
 
+# Define noise scale
+sc = st.slider("scale",0,100)
+
 # Encode labels
 le = LabelEncoder()
 encoded_labels = le.fit_transform(colors)
@@ -59,28 +62,24 @@ color_square_arr = np.array(color_square.resize((32, 32)))  # Resize image to ma
 color_square_arr = color_square_arr / 255.0  # Normalize pixel values
 
 # Display the colored square image using Streamlit
-st.image(color_square, caption='Selected Color', channels='RGB')
+st.image(color_square, caption='Color without Noise', channels='RGB')
 
 def predict(): 
-    color_square_arr_expanded = np.expand_dims(color_square_arr, axis=0)  # Add batch dimension
+    # Add Gaussian noise to the image
+    noisy_color_square = color_square + np.random.normal(loc=0, scale=sc, size=color_square_arr.shape)  # Adjust 'scale' as needed
+  
+    # Display the Noisy colored square image using Streamlit
+    st.image(noisy_color_square, caption='Color with Noise', channels='RGB')
+
+    noisy_color_square_arr = np.array(noisy_color_square.resize((32, 32, 3)))  # Resize image to match model input size
+    noisy_color_square_arr = noisy_color_square_arr / 255.0  # Normalize pixel values
+  
+    color_square_arr_expanded = np.expand_dims(noisy_color_square_arr, axis=0)  # Add batch dimension
+    
     y_pred_probs = model.predict(color_square_arr_expanded)
     y_pred = np.argmax(y_pred_probs, axis=1)
 
     y_pred_la = le.inverse_transform(y_pred)
     st.write(y_pred_la)
-
-
-
-  
-#     scaler = MinMaxScaler()
-#     X[cols_to_scale] = scaler.fit_transform(X[cols_to_scale])
-#     X = np.array(X)
-#     st.write(X)
-#     prediction = model.predict(X)
-#     if prediction[0] == 1: 
-#         st.success('User Stay :thumbsup:')
-#     else: 
-#         st.error('User did not Stay :thumbsdown:')
-#     st.write(prediction)
 
 trigger = st.button('Predict', on_click=predict)
